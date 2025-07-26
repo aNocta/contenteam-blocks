@@ -1,0 +1,273 @@
+@use "../../node_modules/swiper/swiper.scss";
+$light_blue: #2747B9;
+$blue: #001767;
+
+.blocks-container{
+	width: min(1200px, 100% - 20px);
+	margin-inline: auto;
+	&--global-gaps{
+		padding-block: var(--global-gaps, 60px);
+	}
+	&--big-gaps{
+		--global-gaps: 90px;
+	}
+	&__title{
+		margin-block: 0 20px;
+		font-size: 45px;
+		font-weight: 700;
+		color: $blue;
+	}
+}
+.blocks-button{
+	display: flex;
+	align-items: center;
+	border-radius: 10px;
+	border: none;
+	background-color: white;
+	color: $light_blue;
+	cursor: pointer;
+	transition: .3s ease;
+	&:hover{
+		background-color: #eee;
+		scale: .98
+	}
+}
+.hero-main{
+	color: white;
+	padding-block: 120px 110px;
+	background-size: cover;
+	&__title{
+		margin-block: 0 20px;
+		font-size: 60px;
+		font-weight: 600;
+	}
+	&__description{
+		font-size: 20px;
+		margin-block: 0 40px;
+		font-weight: 400;
+	}
+	&__button{
+		padding: 0 24px;
+		height: 48px;
+		font-size: 16px;
+		line-height: 24px;
+		font-weight: 700;
+	}
+}
+
+.rating{
+	$this: &;
+	&__grid{
+		display: grid;
+		grid-template-columns: repeat(3, 1fr) 210px;
+		gap: 30px;	
+		position: relative;
+		&:has(#{$this}__item:hover) #{$this}__click-picture{
+			filter: none;
+		}
+	}
+	&__item{
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		background-size: cover;
+		border-radius: 10px;
+		color: white;
+		height: 134px;
+		padding-inline: 20px;
+		text-decoration: none;
+		transition: .3s ease;
+		&:hover{
+			box-shadow: 0px 0px 15px 2px $light_blue;
+		}
+	}
+	&__title{
+		font-weight: 500;
+		font-size: 40px;
+		margin: 0;
+	}
+	&__description{
+		text-decoration: underline;
+		color: inherit;
+		font-size: 20px;
+	}
+	&__click-picture{
+		position: absolute;
+		right: 0;
+		top: 30%;
+		object-fit: contain;
+		rotate: -30deg;
+		filter: saturate(0) brightness(0.75);
+		transition: .3s;
+	}
+}
+
+.b-cases{
+	&__header, &__tabs{
+		display: flex;
+	}
+	&__header{
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 30px;
+	}
+	&__tabs{
+		margin: 0;
+		padding: 0;
+		gap: 24px;
+		&-button{
+			border: none;
+			padding: 0;
+			background-color: transparent;
+			font: inherit;
+			color: inherit;
+			cursor: pointer;
+			transition: color .3s ease;
+			&:focus{ outline: none; }
+			&:hover{
+				text-decoration: underline;
+				text-decoration-thickness: 2px;
+				text-underline-offset: 3px;
+			}
+		}
+		&-item{
+			list-style: none;
+			font-size: 16px;
+			&:hover{
+				color: $light_blue;
+			}
+			&--active{
+				font-weight: 700;
+				color: $light_blue;
+			}
+		}
+	}
+	&__cover{
+		position: relative;
+		height: 300px;
+		overflow: hidden;
+		border-radius: 10px;
+	}
+	&__image{
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		z-index: -1;
+		transition: .3s;
+	}
+	&__item a{
+		text-decoration: none;
+	}
+	&__item:hover &__image{
+		scale: 1.05;
+	}
+	&__bage{
+		position: absolute;
+		inset: 12px auto auto 12px;
+		background-color: $light_blue;
+		color: white;
+		border-radius: 4px;
+		padding: 6px 12px;
+		font-size: 12px;
+		font-weight: 500;
+		line-height: 14px;
+	}
+	&__title{
+		font-size: 30px;
+		font-weight: 500;
+		margin-block: 20px 0;
+	}
+}
+
+.carousel{
+	&__arrows{
+		display: flex;
+		gap: 10px;
+	}
+	&__arrow{
+		display: grid;
+		place-content: center;
+		width: 40px;
+		height: 40px;
+		border: none;
+		border-radius: 10px;
+		background-color: $light_blue;
+		cursor: pointer;
+		transition: background-color .3s ease, scale .2s ease;
+		&:hover{
+			background-color: $blue;
+		}
+		&:focus{
+			outline: none;
+		}
+		&:active{
+			scale: .95;
+		}
+		&::before{
+			content: "";
+			display: block;
+			width: 14px;
+			height: 14px;
+			background-size: contain;
+			background-repeat: no-repeat;
+		}
+		&--prev::before{
+			background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="15" height="14" fill="none" viewBox="0 0 15 14"><path stroke="%23fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.429" d="M.799 6.983h13.486M.8 6.983 6.24 12.4M.798 6.983l5.44-5.417"/></svg>');
+		}
+		&--next::before{
+			background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="15" height="13" fill="none" viewBox="0 0 15 13"><path stroke="%23fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.429" d="M14.201 6.578H.715m13.486 0L8.761 1.16m5.44 5.417-5.44 5.416"/></svg>');
+		}
+	}
+}
+
+.advantages{
+	background-image: url('/wp-content/plugins/contenteam-blocks/assets/images/advantages.webp');
+	background-size: cover;
+	color: white;
+	&__title{
+		font-size: 45px;
+		font-weight: 700;
+		margin-bottom: 40px;
+	}
+	&__items{
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		padding: 0;
+		margin-block: 0 60px;
+		gap: 20px;
+	}
+	&__item{
+		list-style: none;
+		border-radius: 10px;
+		border: 2px solid white;
+		padding: 20px;
+		&-title{
+			margin: 0;
+			font-size: 45px;
+			font-weight: 500;
+		}
+		&-description{
+			font-size: 20px;
+		}
+	}
+	&__button{
+		font-size: 25px;
+		font-weight: 700;
+		padding-inline: 81px;
+		height: 76px;
+	}
+}
+
+.team{
+	&__header{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	&__content{
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}

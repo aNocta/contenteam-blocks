@@ -1,0 +1,20 @@
+{
+  "name": "contenteam-blocks",
+  "module": "index.ts",
+  "type": "es6",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest",
+    "resolve-url-loader": "^5.0.0",
+    "sass-loader": "^12.1.0"
+  },
+  "scripts": {
+    "dev": "mix watch",
+    "build": "mix --production"
+  },
+  "dependencies": {
+    "laravel-mix": "^6.0.49",
+    "sass": "^1.89.2",
+    "swiper": "^11.2.10"
+  }
+}
