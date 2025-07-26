@@ -1,5 +1,5 @@
 import Swiper from "swiper";
-import {Navigation} from "swiper/modules";
+import {Navigation, Grid} from "swiper/modules";
 
 const casesCarousel = new Swiper(".b-cases", {
     slidesPerView: 2,
@@ -38,5 +38,30 @@ for(let item of casesTabs){
         }
         casesCarousel.update();
         casesCarousel.slideTo(0);
+    });
+}
+
+
+new Swiper(".team__carousel", {
+    slidesPerView: 4,
+    spaceBetween: 10,
+    navigation: {
+        prevEl: "#team-prev",
+        nextEl: "#team-next",
+    },
+    grid: {
+        rows: 4,
+    },
+    modules: [Navigation, Grid]
+});
+const members = document.querySelectorAll(".team__member");
+for(let member of members){
+    member.addEventListener("click", () => {
+        for(let member of members){member.classList.remove("team__member--selected")}
+        member.classList.add("team__member--selected");
+        document.querySelector(".team__current").src = member.dataset.image;
+        document.querySelector(".team__info-name").textContent = member.querySelector(".team__name").textContent;
+        document.querySelector(".team__info-position").textContent = member.querySelector(".team__position").textContent;
+        document.querySelector(".team__info-cite").textContent = member.querySelector(".team__cite").textContent;
     });
 }

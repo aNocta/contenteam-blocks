@@ -34,60 +34,60 @@ try {
     var item = _step.value;
     var button = item.querySelector("button");
     button.addEventListener("click", function () {
-      var _iterator2 = _createForOfIteratorHelper(casesTabs),
-        _step2;
+      var _iterator3 = _createForOfIteratorHelper(casesTabs),
+        _step3;
       try {
-        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-          var _item2 = _step2.value;
+        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+          var _item2 = _step3.value;
           _item2.classList.remove("b-cases__tabs-item--active");
         }
       } catch (err) {
-        _iterator2.e(err);
+        _iterator3.e(err);
       } finally {
-        _iterator2.f();
+        _iterator3.f();
       }
       item.classList.add("b-cases__tabs-item--active");
       if (!button.dataset.term) {
-        var _iterator3 = _createForOfIteratorHelper(cases),
-          _step3;
+        var _iterator4 = _createForOfIteratorHelper(cases),
+          _step4;
         try {
-          for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-            var _item = _step3.value;
+          for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+            var _item = _step4.value;
             _item.style.display = "block";
           }
         } catch (err) {
-          _iterator3.e(err);
+          _iterator4.e(err);
         } finally {
-          _iterator3.f();
+          _iterator4.f();
         }
         casesCarousel.update();
         casesCarousel.slideTo(0);
         return;
       }
-      var _iterator4 = _createForOfIteratorHelper(cases),
-        _step4;
-      try {
-        for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-          var _item3 = _step4.value;
-          _item3.style.display = "none";
-        }
-      } catch (err) {
-        _iterator4.e(err);
-      } finally {
-        _iterator4.f();
-      }
-      var targets = document.querySelectorAll(".b-cases__item[data-term=\"".concat(button.dataset.term, "\"]"));
-      var _iterator5 = _createForOfIteratorHelper(targets),
+      var _iterator5 = _createForOfIteratorHelper(cases),
         _step5;
       try {
         for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
-          var _item4 = _step5.value;
-          _item4.style.display = "block";
+          var _item3 = _step5.value;
+          _item3.style.display = "none";
         }
       } catch (err) {
         _iterator5.e(err);
       } finally {
         _iterator5.f();
+      }
+      var targets = document.querySelectorAll(".b-cases__item[data-term=\"".concat(button.dataset.term, "\"]"));
+      var _iterator6 = _createForOfIteratorHelper(targets),
+        _step6;
+      try {
+        for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
+          var _item4 = _step6.value;
+          _item4.style.display = "block";
+        }
+      } catch (err) {
+        _iterator6.e(err);
+      } finally {
+        _iterator6.f();
       }
       casesCarousel.update();
       casesCarousel.slideTo(0);
@@ -100,6 +100,52 @@ try {
   _iterator.e(err);
 } finally {
   _iterator.f();
+}
+new swiper__WEBPACK_IMPORTED_MODULE_0__["default"](".team__carousel", {
+  slidesPerView: 4,
+  spaceBetween: 10,
+  navigation: {
+    prevEl: "#team-prev",
+    nextEl: "#team-next"
+  },
+  grid: {
+    rows: 4
+  },
+  modules: [swiper_modules__WEBPACK_IMPORTED_MODULE_1__.Navigation, swiper_modules__WEBPACK_IMPORTED_MODULE_1__.Grid]
+});
+var members = document.querySelectorAll(".team__member");
+var _iterator2 = _createForOfIteratorHelper(members),
+  _step2;
+try {
+  var _loop2 = function _loop2() {
+    var member = _step2.value;
+    member.addEventListener("click", function () {
+      var _iterator7 = _createForOfIteratorHelper(members),
+        _step7;
+      try {
+        for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
+          var _member = _step7.value;
+          _member.classList.remove("team__member--selected");
+        }
+      } catch (err) {
+        _iterator7.e(err);
+      } finally {
+        _iterator7.f();
+      }
+      member.classList.add("team__member--selected");
+      document.querySelector(".team__current").src = member.dataset.image;
+      document.querySelector(".team__info-name").textContent = member.querySelector(".team__name").textContent;
+      document.querySelector(".team__info-position").textContent = member.querySelector(".team__position").textContent;
+      document.querySelector(".team__info-cite").textContent = member.querySelector(".team__cite").textContent;
+    });
+  };
+  for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+    _loop2();
+  }
+} catch (err) {
+  _iterator2.e(err);
+} finally {
+  _iterator2.f();
 }
 
 /***/ }),
