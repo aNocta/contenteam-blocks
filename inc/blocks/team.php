@@ -25,7 +25,7 @@
                     <?php foreach($members as $k => $member): ?>
                         <article class="team__member<?= $k === 0 ? " team__member--selected" : "" ?> swiper-slide" data-image="<?= wp_get_attachment_image_url($member["image"], "member_full") ?>">
                             <img
-                                src="<?= wp_get_attachment_image_url($member["image"], "member_small") ?>"
+                                src="<?= wp_get_attachment_image_url($member["image"], "thumbnail") ?>"
                                 alt="<?= $member["name"] ?>"
                                 class="team__image"
                                 draggable="false"
@@ -33,9 +33,18 @@
                                 decoding="async"
                                 fetchpriority="low"
                             >
+                            <img
+                                src="<?= wp_get_attachment_image_url($member["image"], "member_full") ?>"
+                                alt="<?= $member["name"] ?>"
+                                class="team__image team__image--mob"
+                                draggable="false"
+                                loading="lazy"
+                                decoding="async"
+                                fetchpriority="low"
+                            >
                             <h3 class="team__name"><?= $member["name"] ?></h3>
                             <span class="team__position"><?= $member["position"] ?></span>
-                            <cite class="team__cite"><?= $member["cite"] ?></cite>
+                            <p class="team__cite"><?= $member["cite"] ?></p>
                         </article>
                     <?php endforeach ?>
                 </div>

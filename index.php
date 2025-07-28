@@ -58,3 +58,23 @@ function team_block(){
 		"render_template" => plugin_dir_path( __FILE__ )."inc/blocks/team.php"
 	]);
 }
+
+add_action("acf/init", "posts_carosel_block");
+function posts_carosel_block(){
+	acf_register_block_type([
+		"name" => "posts_carosel_block",
+		"title" => "Слайдер постов",
+		"render_template" => plugin_dir_path( __FILE__ )."inc/blocks/post_carousel.php"
+	]);
+}
+
+
+add_action("acf/init", "footer_block");
+function footer_block(){
+	acf_register_block_type([
+		"name" => "footer_block",
+		"title" => "Футер",
+		"render_template" => plugin_dir_path( __FILE__ )."inc/blocks/footer.php"
+	]);
+}
+add_filter('wpcf7_autop_or_not', '__return_false');
