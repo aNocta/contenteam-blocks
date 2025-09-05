@@ -1,11 +1,19 @@
 <?php
 // Plugin Name: Contenteam блоки
 
+require_once plugin_dir_path(__FILE__)."/inc/cases/catalog.php";
+require_once plugin_dir_path(__FILE__)."/inc/cases/single.php";
+
 define("CONTENTEAM_BLOCKS_URL", plugin_dir_url( __FILE__ ));
+
+
 add_action("wp_enqueue_scripts", "include_blocks_assets");
 function include_blocks_assets(){
 	wp_enqueue_style("contenteam-blocks",  plugin_dir_url( __FILE__ )."assets/css/style.css");
 	wp_enqueue_script("contenteam-blocks",  plugin_dir_url( __FILE__ )."assets/js/main.js", [], false, true);
+	wp_localize_script("contenteam-blocks", "contenteam_blocks_meta", [
+		"ajax" => admin_url("admin-ajax.php")
+	]);
 }
 add_action("after_setup_theme", "blocks_add_image_size");
 function blocks_add_image_size(){
@@ -78,3 +86,15 @@ function footer_block(){
 	]);
 }
 add_filter('wpcf7_autop_or_not', '__return_false');
+
+add_shortcode("cases_catalog_test", function(){
+	ob_start();
+	do_action("case_catalog", "test-1");
+	return ob_get_clean();
+});
+
+add_shortcode("cases_cover_test", function(){
+	ob_start();
+	do_action("case_cover");
+	return ob_get_clean();
+});

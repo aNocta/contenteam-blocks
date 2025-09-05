@@ -1,9 +1,13 @@
 @use "sass:color";
 @use "../../node_modules/swiper/swiper.scss";
 @use "../../node_modules/swiper/modules/grid.scss";
+@use "./cases.scss";
 $light_blue: #2747B9;
 $blue: #001767;
 
+:root{
+	--light-blue: #2747B9;
+}
 @mixin mobile{
 	@media (width <= 768px){
 		@content;

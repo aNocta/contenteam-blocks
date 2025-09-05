@@ -1,6 +1,10 @@
 import Swiper from "swiper";
 import {Navigation, Grid} from "swiper/modules";
+import $ from "jquery";
 
+declare var contenteam_blocks_meta: {
+    ajax: string;
+};
 abstract class DomManipulator{
     public toggleItems(items: NodeListOf<HTMLElement>, active_class: string, force?: boolean){
 		for(let item of items){
@@ -184,3 +188,90 @@ new TeamViewer("team__member")
         }
     });
 
+
+$(function(){
+    const preloader = `
+        <div class="cases-loading">
+            <div class="cases-loading__circle"></div>
+        </div>
+    `;
+
+    const $cases = $(".cases");
+    const $catButtons = $(".cases-cats__button");
+    const $prevButton = $(".cases-navigation__button--prev");
+    const $nextButton = $(".cases-navigation__button--next");
+    let $paginationButtons = $(".cases-navigation__button[data-page]");
+
+    let page = 1;
+    let cat = $(".cases-cats__button--active").data("cat");
+
+
+    function updatePrevNextButtons(){
+        $prevButton.toggle(page > 1);
+        $nextButton.toggle(page < $paginationButtons.length);
+    }
+
+    function updateCatButtons(){
+        $catButtons.removeClass("cases-cats__button--active");
+        $(`.cases-cats__button[data-cat=${cat}]`).addClass("cases-cats__button--active");
+    }
+
+    function bindPaginationEvents(){
+        $paginationButtons.on("click", function(){
+            page = $(this).data('page');
+            loadCases();
+        });
+    }
+
+    function loadCases(){
+        $cases.css({"min-height": "400px"});
+        $cases.html(preloader);
+        updateCatButtons();
+        $(".cases-cats")[0].scrollIntoView({
+            behavior: "smooth",            
+        });
+        $.ajax({
+            url: contenteam_blocks_meta.ajax,
+            method: "POST",
+            data: {
+                action: "case_catalog",
+                page,
+                cat
+            },
+            success: (res) => {
+                $cases.html(res.data.cases);
+                $cases.css({"min-height":"0"});
+                if(res.data.pages <= 1){
+                    $(".cases-navigation").hide();
+                    return;
+                }
+                $(".cases-navigation").css({display: "flex"});
+                $paginationButtons.remove();
+                for(let i = 0; i < +res.data.pages; i++){                    
+                    $nextButton.before(` <button class="cases-navigation__button${i+1 === page ? " cases-navigation__button--active" : ""}" data-page="${i+1}">${i+1}</button>`);
+                }
+                $paginationButtons = $(".cases-navigation__button[data-page]");
+                bindPaginationEvents();
+                updatePrevNextButtons();
+            }
+        });
+    }
+
+    $nextButton.on("click", function(){
+        page++;
+        loadCases();
+    });
+
+    $prevButton.on("click", function(){
+        page--;
+        loadCases();
+    });
+
+    bindPaginationEvents();
+    updatePrevNextButtons();
+    $catButtons.on("click", function(){
+        cat = $(this).data("cat");
+        page = 1;
+        loadCases();
+    });
+})
