@@ -1,0 +1,121 @@
+@use "../general/mixins" as m;
+@use "../general/variables" as v;
+
+
+.person-hero{
+	position: relative;
+	padding-block: 75px;
+	@include m.mobile{
+		color: white;
+		height: 100vh;
+	}
+	&__background{
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		z-index: -1;
+		@include m.mobile{
+			display: none;
+		}
+	}
+	&__main{
+		display: flex;
+		gap: 80px;
+		@include m.mobile{
+			flex-direction: column;
+			align-items: center;
+		}
+	}
+	&__image{
+		border-radius: 34px;
+		width: 500px;
+		height: 500px;
+		object-fit: cover;		
+		@include m.mobile{
+			display: none;
+		}
+		&--mobile{
+			display: none;
+			@include m.mobile{
+				display: block;
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				object-fit: cover;
+				z-index: -1;
+			}
+		}
+	}
+	&__tag{
+		display: flex;
+		align-items: center;
+		width: fit-content;
+		border: 1px solid v.$blue;
+		color: v.$blue;
+		font-size: 14px;
+		height: 40px;
+		padding-inline: 16px;
+		border-radius: 12px;
+		margin-bottom: 64px;
+		background-color: white;
+		@include m.mobile{
+			display: none;
+		}
+	}
+	&__heading{
+		font-weight: 700;
+		font-size: 55px;
+		line-height: 1;
+		margin-bottom: 10px;
+		@include m.mobile{
+			font-size: 40px;
+			margin-bottom: 20px;
+			text-align: center;
+			line-height: normal;
+			text-wrap-style: balance;
+		}
+	}
+	&__description p{
+		font-size: 20px;
+		line-height: 1;
+		margin-block: 0 50px;
+        font-weight: 400;
+		@include m.mobile{
+			font-size: 14px;
+			margin-block: 0 20px;
+			text-align: center;
+			line-height: normal;
+			text-wrap-style: balance;
+			br{
+				display: none;
+			}
+		}
+	}
+	&__button{
+		border: none;
+		background-color: v.$light_blue;
+		color: white;
+		font-weight: 500;
+		font-size: 20px;
+		line-height: 1;
+		border-radius: 12px;
+		height: 48px;
+		padding-inline: 24px;
+		cursor: pointer;
+		transition: 300ms ease;
+		&:hover{
+			filter: brightness(1.15);
+		}
+		@include m.mobile{
+			background-color: white;
+			color:  v.$light_blue;
+			height: 44px;
+			width: 100%;
+			font-size: 16px;
+			font-weight: 700;
+		}
+	}
+}

@@ -30,7 +30,7 @@ $cases = new WP_Query([
                 <a href="<?php the_permalink() ?>">
                     <div class="b-cases__cover">
                         <span class="b-cases__bage">Кейсы</span>
-                        <?php the_post_thumbnail("case_desktop", attr: [
+                        <?php the_post_thumbnail("case_desktop",  [
                             "class" => "b-cases__image",
                             "alt" => "Контент-стратегия и блог для сервиса по созданию тестов и квизов"
                         ]) ?>

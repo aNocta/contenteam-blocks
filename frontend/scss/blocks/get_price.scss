@@ -1,0 +1,106 @@
+@use "../general/mixins" as m;
+@use "../general/variables" as v;
+
+.get-price{
+    --global-gaps: 134px;
+    background-image: url("/wp-content/plugins/contenteam-blocks/assets/images/get-price-background.webp");
+    background-size: cover;
+    font-weight: 400;
+    color: white;
+    @include m.mobile{
+        background-image: url("/wp-content/plugins/contenteam-blocks/assets/images/blueground.webp");
+    }
+    &__wrapper{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        @include m.mobile{
+            --global-gaps: 60px;
+        }
+    }
+    &__heading{
+        margin-block: 0 20px;
+        font-weight: 700;
+        font-size: 70px;
+        text-align: center;
+        @include m.mobile{
+            text-wrap-style: balance;
+            font-size: 38px;
+            br{
+                display: none;
+            }            
+        }
+    }
+    &__description{
+        font-size: 20px;
+        margin-block: 0 44px;
+        text-align: center;
+        @include m.mobile{
+            font-size: 16px;
+            margin-block: 0 30px;
+            text-wrap-style: balance;
+            br{
+                display: none;
+            }
+        }        
+    }
+    &__buttons{
+        display: flex;
+        gap: 20px;
+        @include m.mobile{
+            gap: 10px;
+            width: 100%;
+            flex-direction: column;
+        }
+    }
+    &__button{
+        height: 48px;
+        border: 1px solid v.$light_blue;
+        border-radius: 12px;
+        background-color: v.$light_blue;
+        padding-inline: 20px;
+        color: white;
+        font-size: 20px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: 300ms ease;
+        &:hover{
+            filter: brightness(.8);
+        }
+        @include m.mobile{
+            font-size: 16px;
+            height: 44px;
+            border-color: white;
+            background-color: white;
+            color: v.$light_blue;
+            font-weight: 500;
+        }
+        &--show-cases{
+            position: relative;
+            overflow: hidden;
+            background-color: transparent;
+            z-index: 1;            
+            &::before{
+                content: "";
+                display: block;
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                left: 0;
+                top: 100%;
+                background-color: v.$light_blue;
+                z-index: -1;
+                transition: 300ms ease;
+            }
+            &:hover{
+                filter: brightness(1);
+            }
+            &:hover::before{
+                top: 0;
+            }
+            @include m.mobile{
+                color: white;
+            }
+        }
+    }
+}

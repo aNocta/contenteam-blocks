@@ -31,9 +31,10 @@ function contenteam_case_pages(int $total){
     echo '</div>';
 }
 
-function contenteam_case_cats(mixed $cat = -1){
+function contenteam_case_cats($cat = null, string $taxonomy = "case_cat"){
+    $cat = $cat === null ? -1 : $cat;
     $terms = get_terms([
-        "taxonomy" => "case_cat"
+        "taxonomy" => $taxonomy
     ]);
     echo '<div class="cases-cats" id="cats">';
     printf('<button class="cases-cats__button%s" data-cat="-1">Все</button>', $cat === -1 ? " cases-cats__button--active" : "");
@@ -45,21 +46,21 @@ function contenteam_case_cats(mixed $cat = -1){
     echo '</div>';
 }
 
-function contenteam_case_catalog(mixed $cat = -1){
+function contenteam_case_catalog($cat = -1, string $post_type = "case", string $taxonomy = "case_cat"){
     $props = [
-        "post_type" => "case",
+        "post_type" => $post_type,
         "posts_per_page" => 6,
     ];
     if($cat && $cat != -1){
         $props["tax_query"] = [[
-            "taxonomy" => "case_cat",
+            "taxonomy" => $taxonomy,
             "field" => "slug",
             "terms" => [$cat]
         ]]; 
     }
     $query = new WP_Query($props);
-    contenteam_case_cats($cat);
-    echo '<div class="cases">';
+    contenteam_case_cats($cat, $taxonomy);
+    echo '<div class="cases" data-type="'.$post_type.'" data-taxonomy="'.$taxonomy.'">';
     while($query->have_posts()){
         $query->the_post();
         contenteam_case_item();
@@ -68,21 +69,21 @@ function contenteam_case_catalog(mixed $cat = -1){
     echo '</div>';
     contenteam_case_pages($query->max_num_pages);
 }
-add_action("case_catalog", "contenteam_case_catalog", 10, 1);
+add_action("case_catalog", "contenteam_case_catalog", 10, 3);
 
 
 function contenteam_case_catalog_ajax(){
     $page = $_POST["page"] ?? 1;
     $cat = $_POST["cat"] ?? -1;
-
+	
     $props = [
-        "post_type" => "case",
+        "post_type" => $_POST["post_type"] ?? "case",
         "posts_per_page" => 6,
         "paged" => $page,
     ];
     if($cat != -1){
         $props["tax_query"] = [[
-            "taxonomy" => "case_cat",
+            "taxonomy" => $_POST["taxonomy"] ?? "case_cat",
             "field" => "slug",
             "terms" => [$cat]
         ]]; 

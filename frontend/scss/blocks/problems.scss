@@ -1,0 +1,62 @@
+@use "../general/mixins" as m;
+@use "../general/variables" as v;
+
+
+.problems{
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+    @include m.mobile{
+        margin-top: 30px;
+        gap: 20px;
+        grid-template-columns: 1fr;
+        &__header{
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+    }
+    &__item{
+        box-sizing: border-box;
+        height: auto;
+        padding: 30px;
+        border-radius: 24px;
+        border: 2px solid #DC3550;
+        @include m.mobile{
+            padding: 25px;
+        }
+    }
+    &__icon{
+        flex-shrink: 0;
+        margin-bottom: 20px;
+        @include m.mobile{
+            width: 64px;
+            height: 64px;
+            margin-bottom: 0;
+        }
+    }
+    &__heading{
+        font-weight: 600;
+        font-size: 25px;
+        margin-block: 0 20px;
+        @include m.mobile{
+            font-size: 20px;
+            margin-block: 0;
+        }
+    }
+    &__description{
+        margin: 0;
+        font-size: 20px;
+        font-weight: 400;
+        @include m.mobile{
+            font-size: 16px;
+        }
+    }
+}
+
+@include m.mobile{
+    .blocks-container:has(.problems){
+        --global-gaps: 60px;
+    }
+}

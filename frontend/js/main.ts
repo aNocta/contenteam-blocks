@@ -1,53 +1,53 @@
 import Swiper from "swiper";
-import {Navigation, Grid} from "swiper/modules";
+import { Navigation, Grid } from "swiper/modules";
 import $ from "jquery";
 
 declare var contenteam_blocks_meta: {
     ajax: string;
 };
-abstract class DomManipulator{
-    public toggleItems(items: NodeListOf<HTMLElement>, active_class: string, force?: boolean){
-		for(let item of items){
-			item.classList.toggle(active_class, force);
-		}
-	}
-    public changeStyle(items: NodeListOf<HTMLElement>, property: string, value: string){
-        for(let item of items){
-			item.style.setProperty(property, value);
-		}
+abstract class DomManipulator {
+    public toggleItems(items: NodeListOf<HTMLElement>, active_class: string, force?: boolean) {
+        for (let item of items) {
+            item.classList.toggle(active_class, force);
+        }
+    }
+    public changeStyle(items: NodeListOf<HTMLElement>, property: string, value: string) {
+        for (let item of items) {
+            item.style.setProperty(property, value);
+        }
     }
 }
 
-class SliderCats extends DomManipulator{
+class SliderCats extends DomManipulator {
     public tabClass: string;
     public itemClass: string;
     public tabs: NodeListOf<HTMLElement>;
     public items: NodeListOf<HTMLElement>;
     public carousel?: Swiper;
 
-    public constructor(tabs: string, items: string, carousel: Swiper){
+    public constructor(tabs: string, items: string, carousel: Swiper) {
         super();
         this.tabClass = tabs;
         this.itemClass = items;
         this.carousel = carousel;
-        this.tabs = document.querySelectorAll("."+tabs);
-        this.items = document.querySelectorAll("."+items);
-        for(let item of this.tabs){
+        this.tabs = document.querySelectorAll("." + tabs);
+        this.items = document.querySelectorAll("." + items);
+        for (let item of this.tabs) {
             this.addEvent(item);
         }
     }
-    public resetCarousel(){
-        if(!this.carousel) return;
+    public resetCarousel() {
+        if (!this.carousel) return;
         this.carousel.update();
         this.carousel.slideTo(0);
     }
-    private addEvent(item: HTMLElement){
+    private addEvent(item: HTMLElement) {
         const button = item.querySelector("button");
-        if(!button) return;
+        if (!button) return;
         button.addEventListener("click", () => {
-            this.toggleItems(this.tabs, this.tabClass+"--active", false);
-            item.classList.add(this.tabClass+"--active");
-            if(!button.dataset.term){
+            this.toggleItems(this.tabs, this.tabClass + "--active", false);
+            item.classList.add(this.tabClass + "--active");
+            if (!button.dataset.term) {
                 this.changeStyle(this.items, "display", "block");
                 this.resetCarousel();
                 return;
@@ -68,41 +68,41 @@ type TeamMember = {
     cite: string
 };
 type TeamEvent = (member: TeamMember) => void;
-class TeamViewer extends DomManipulator{
+class TeamViewer extends DomManipulator {
     private memberClass: string;
     private currentMember?: TeamMember;
     private members: NodeListOf<HTMLElement>;
     private events: TeamEvent[] = []
 
-    public constructor(memberClass: string){
+    public constructor(memberClass: string) {
         super();
         this.memberClass = memberClass;
-        this.members = document.querySelectorAll<HTMLElement>("."+memberClass);
-        for(let member of this.members){
+        this.members = document.querySelectorAll<HTMLElement>("." + memberClass);
+        for (let member of this.members) {
             this.click(member);
         }
     }
 
-    public addEvent(event: TeamEvent): this{
+    public addEvent(event: TeamEvent): this {
         this.events.push(event);
         return this;
     }
 
-    private click(member: HTMLElement){
+    private click(member: HTMLElement) {
         member.addEventListener("click", () => {
             let image: string = member.dataset.image ?? "";
             let name: string = member.querySelector(".team__name")?.textContent ?? "Test";
             let position: string = member.querySelector(".team__position")?.textContent ?? "Test";
             let cite: string = member.querySelector(".team__cite")?.textContent ?? "Test";
-            this.toggleItems(this.members, this.memberClass+"--selected", false)
-            member.classList.add(this.memberClass+"--selected");
+            this.toggleItems(this.members, this.memberClass + "--selected", false)
+            member.classList.add(this.memberClass + "--selected");
             this.currentMember = {
                 image,
                 name,
                 position,
                 cite
             };
-            for(let event of this.events){
+            for (let event of this.events) {
                 event(this.currentMember);
             }
         });
@@ -180,7 +180,7 @@ new TeamViewer("team__member")
         const currentName = document.querySelector(".team__info-name");
         const currentPosition = document.querySelector(".team__info-position");
         const currentCite = document.querySelector(".team__info-cite");
-        if(currentImage && currentName && currentPosition && currentCite){
+        if (currentImage && currentName && currentPosition && currentCite) {
             currentImage.src = member.image;
             currentName.textContent = member.name;
             currentPosition.textContent = member.position;
@@ -189,7 +189,7 @@ new TeamViewer("team__member")
     });
 
 
-$(function(){
+$(function () {
     const preloader = `
         <div class="cases-loading">
             <div class="cases-loading__circle"></div>
@@ -204,31 +204,33 @@ $(function(){
 
     let page = 1;
     let cat = $(".cases-cats__button--active").data("cat");
+    let taxonomy = $cases.data("taxonomy") ?? "case_cat";
+    let post_type = $cases.data("type") ?? "case";
 
 
-    function updatePrevNextButtons(){
+    function updatePrevNextButtons() {
         $prevButton.toggle(page > 1);
         $nextButton.toggle(page < $paginationButtons.length);
     }
 
-    function updateCatButtons(){
+    function updateCatButtons() {
         $catButtons.removeClass("cases-cats__button--active");
         $(`.cases-cats__button[data-cat=${cat}]`).addClass("cases-cats__button--active");
     }
 
-    function bindPaginationEvents(){
-        $paginationButtons.on("click", function(){
+    function bindPaginationEvents() {   
+        $paginationButtons.on("click", function () {
             page = $(this).data('page');
             loadCases();
         });
     }
 
-    function loadCases(){
-        $cases.css({"min-height": "400px"});
+    function loadCases() {
+        $cases.css({ "min-height": "400px" });
         $cases.html(preloader);
         updateCatButtons();
         $(".cases-cats")[0].scrollIntoView({
-            behavior: "smooth",            
+            behavior: "smooth",
         });
         $.ajax({
             url: contenteam_blocks_meta.ajax,
@@ -236,19 +238,23 @@ $(function(){
             data: {
                 action: "case_catalog",
                 page,
-                cat
+                cat,
+                post_type,
+                taxonomy
             },
             success: (res) => {
+                const maxPage = Math.min(+res.data.pages, page + 3);
+                const startPage = Math.max(page - 2, 1)
                 $cases.html(res.data.cases);
-                $cases.css({"min-height":"0"});
-                if(res.data.pages <= 1){
+                $cases.css({ "min-height": "0" });
+                if (res.data.pages <= 1) {
                     $(".cases-navigation").hide();
                     return;
                 }
-                $(".cases-navigation").css({display: "flex"});
+                $(".cases-navigation").css({ display: "flex" });
                 $paginationButtons.remove();
-                for(let i = 0; i < +res.data.pages; i++){                    
-                    $nextButton.before(` <button class="cases-navigation__button${i+1 === page ? " cases-navigation__button--active" : ""}" data-page="${i+1}">${i+1}</button>`);
+                for (let i = startPage; i <= maxPage; i++) {
+                    $nextButton.before(` <button class="cases-navigation__button${i === page ? " cases-navigation__button--active" : ""}" data-page="${i}">${i}</button>`);
                 }
                 $paginationButtons = $(".cases-navigation__button[data-page]");
                 bindPaginationEvents();
@@ -257,19 +263,19 @@ $(function(){
         });
     }
 
-    $nextButton.on("click", function(){
+    $nextButton.on("click", function () {
         page++;
         loadCases();
     });
 
-    $prevButton.on("click", function(){
+    $prevButton.on("click", function () {
         page--;
         loadCases();
     });
 
     bindPaginationEvents();
     updatePrevNextButtons();
-    $catButtons.on("click", function(){
+    $catButtons.on("click", function () {
         cat = $(this).data("cat");
         page = 1;
         loadCases();
